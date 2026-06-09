@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applicant Case Tracker</title>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f6f9;
+padding:30px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 0 15px rgba(0,0,0,.1);
+}
+
+h1{
+color:#003366;
+}
+
+input{
+width:100%;
+padding:12px;
+font-size:16px;
+margin-top:10px;
+margin-bottom:10px;
+}
+
+button{
+background:#0066cc;
+color:white;
+border:none;
+padding:12px 20px;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0052a3;
+}
+
+.card{
+margin-top:25px;
+padding:25px;
+background:#f8f9fa;
+border-left:6px solid #0066cc;
+border-radius:8px;
+}
+
+.badge{
+display:inline-block;
+background:#28a745;
+color:white;
+padding:8px 15px;
+border-radius:20px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.photo{
+width:180px;
+height:220px;
+object-fit:cover;
+border-radius:10px;
+border:3px solid #0066cc;
+display:block;
+margin-bottom:15px;
+}
+
+.card p{
+margin:8px 0;
+}
+
+.not-found{
+margin-top:20px;
+color:red;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Applicant Case Tracker</h1>
+
+<input
+type="text"
+id="caseId"
+placeholder="Enter Case ID">
+
+<button onclick="checkStatus()">
+Check Status
+</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+async function checkStatus(){
+
+const caseId =
+document.getElementById("caseId").value.trim();
+
+const response =
+await fetch("applicant.json");
+
+const data =
+await response.json();
+
+const applicant =
+data.find(item => item.caseId === caseId);
+
+if(applicant){
+
+document.getElementById("result").innerHTML = `
+
+<div class="card">
+
+<div class="badge">
+APPLICATION APPROVED
+</div>
+
+<img src="${applicant.photo}" class="photo">
+
+<h2>${applicant.name}</h2>
+
+<p><strong>Case ID:</strong> ${applicant.caseId}</p>
+
+<p><strong>Date of Birth:</strong> ${applicant.dateOfBirth}</p>
+
+<p><strong>Nationality:</strong> ${applicant.nationality}</p>
+
+<p><strong>Email:</strong> ${applicant.email}</p>
+
+<p><strong>Phone:</strong> ${applicant.phone}</p>
+
+<p><strong>Destination:</strong> ${applicant.destination}</p>
+
+<p><strong>Status:</strong> ${applicant.status}</p>
+
+<p><strong>Approval Date:</strong> ${applicant.approvalDate}</p>
+
+<p><strong>Expected Completion:</strong> ${applicant.expectedCompletion}</p>
+
+<p><strong>Notes:</strong> ${applicant.note}</p>
+
+<br>
+
+<button onclick="window.print()">
+Print Application Status
+</button>
+
+</div>
+
+`;
+
+}else{
+
+document.getElementById("result").innerHTML =
+'<div class="not-found">Case ID not found.</div>';
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
