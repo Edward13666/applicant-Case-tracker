@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
 
@@ -12,68 +11,94 @@
   <title>Applicant Status Tracker</title>
 
   <style>
+    :root {
+      --primary: #0066cc;
+      --primary-dark: #004f9e;
+      --success: #287a45;
+      --background: #f4f6f9;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #5b6470;
+      --warning-bg: #fff8e1;
+      --warning-border: #e0c866;
+      --error: #b00020;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: #f4f6f9;
+      background: var(--background);
       margin: 0;
-      padding: 30px;
-      color: #1f2937;
+      padding: 24px;
+      color: var(--text);
     }
 
     .container {
       max-width: 950px;
       margin: auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      background: var(--card);
+      padding: 28px;
+      border-radius: 14px;
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
       color: #003366;
-      margin-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 8px;
     }
 
     .intro {
-      line-height: 1.5;
+      line-height: 1.55;
       margin-bottom: 18px;
+      color: var(--muted);
+    }
+
+    .search-area {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: end;
     }
 
     input {
       width: 100%;
-      padding: 12px;
-      margin-top: 10px;
+      padding: 13px;
       font-size: 16px;
-      box-sizing: border-box;
+      border: 1px solid #aeb5bf;
+      border-radius: 7px;
       text-transform: uppercase;
     }
 
     button {
-      background: #0066cc;
+      background: var(--primary);
       color: white;
       border: none;
-      padding: 12px 20px;
-      border-radius: 5px;
+      padding: 13px 20px;
+      border-radius: 7px;
       cursor: pointer;
-      margin-top: 10px;
       font-size: 15px;
+      font-weight: bold;
     }
 
     button:hover {
-      background: #0052a3;
+      background: var(--primary-dark);
     }
 
     .card {
       margin-top: 25px;
       padding: 25px;
       background: #f8f9fa;
-      border-left: 6px solid #0066cc;
-      border-radius: 8px;
+      border-left: 6px solid var(--primary);
+      border-radius: 10px;
     }
 
     .badge {
       display: inline-block;
-      background: #287a45;
+      background: var(--success);
       color: white;
       padding: 8px 15px;
       border-radius: 20px;
@@ -81,42 +106,95 @@
       margin-bottom: 15px;
     }
 
+    .applicant-layout {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
     .photo {
       width: 180px;
       height: 220px;
       object-fit: cover;
       border-radius: 10px;
-      border: 3px solid #0066cc;
-      display: block;
-      margin-bottom: 15px;
+      border: 3px solid var(--primary);
+      background: #e7ebef;
     }
 
     .details p {
-      margin: 9px 0;
+      margin: 8px 0;
       line-height: 1.45;
     }
 
+    .counter-box {
+      margin-top: 18px;
+      padding: 16px;
+      background: #edf6ff;
+      border-radius: 9px;
+      border: 1px solid #b9d9f6;
+    }
+
+    .day-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #003f7f;
+      margin-bottom: 7px;
+    }
+
+    .progress-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .progress-heading h3 {
+      margin: 0;
+    }
+
+    .progress-value {
+      font-weight: bold;
+      color: var(--success);
+    }
+
     .progress-container {
-      background: #dddddd;
+      background: #d8dce1;
       border-radius: 20px;
       overflow: hidden;
-      margin: 15px 0;
+      margin: 12px 0;
+      height: 34px;
     }
 
     .progress-bar {
-      background: #287a45;
+      background: var(--success);
       color: white;
       text-align: center;
-      padding: 8px 0;
+      height: 100%;
+      line-height: 34px;
       font-weight: bold;
-      min-width: 70px;
+      min-width: 76px;
+      transition: width 0.6s ease;
+      white-space: nowrap;
+    }
+
+    .progress-explanation {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: 7px;
     }
 
     .timeline {
       margin-top: 20px;
-      padding: 15px;
+      padding: 16px;
       background: white;
-      border-radius: 8px;
+      border-radius: 9px;
+    }
+
+    .timeline h3 {
+      margin-top: 0;
     }
 
     .timeline p {
@@ -125,14 +203,20 @@
 
     .note {
       background: #eef6ff;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 15px;
+      padding: 16px;
+      border-radius: 9px;
+      margin-top: 16px;
       line-height: 1.55;
     }
 
+    .calculated-time {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     .not-found {
-      color: #b00020;
+      color: var(--error);
       font-weight: bold;
       margin-top: 20px;
       padding: 14px;
@@ -141,37 +225,48 @@
     }
 
     .disclaimer {
-      background: #fff8e1;
-      border: 1px solid #e0c866;
-      padding: 14px;
-      border-radius: 8px;
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      padding: 15px;
+      border-radius: 9px;
       margin-top: 22px;
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
-    @media (max-width: 600px) {
+    .print-button {
+      margin-top: 18px;
+    }
+
+    @media (max-width: 700px) {
       body {
-        padding: 14px;
+        padding: 12px;
       }
 
       .container {
-        padding: 20px;
+        padding: 18px;
+      }
+
+      .search-area {
+        grid-template-columns: 1fr;
+      }
+
+      .applicant-layout {
+        grid-template-columns: 1fr;
       }
 
       .photo {
-        width: 150px;
-        height: 185px;
+        width: 155px;
+        height: 190px;
+      }
+
+      .progress-heading {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
 
     @media print {
-      input,
-      .search-button,
-      .disclaimer {
-        display: none;
-      }
-
       body {
         background: white;
         padding: 0;
@@ -179,6 +274,12 @@
 
       .container {
         box-shadow: none;
+      }
+
+      .search-area,
+      .disclaimer,
+      .print-button {
+        display: none;
       }
     }
   </style>
@@ -195,267 +296,947 @@
       the recorded progress of an application.
     </p>
 
-    <input
-      type="text"
-      id="caseId"
-      placeholder="Enter Tracking Number"
-      autocomplete="off"
-    >
+    <div class="search-area">
 
-    <button
-      class="search-button"
-      onclick="searchCase()"
-    >
-      Check Status
-    </button>
+      <input
+        type="text"
+        id="caseId"
+        placeholder="Enter Tracking Number"
+        autocomplete="off"
+      >
+
+      <button onclick="searchCase()">
+        Check Status
+      </button>
+
+    </div>
 
     <div id="result"></div>
 
     <div class="disclaimer">
+
       <strong>Important:</strong>
-      This is an agency-managed application progress tracker.
+
+      This is an agency-managed application-progress tracker.
       It is not an official government, WORC, immigration,
-      embassy or consular status portal. Processing dates are
-      estimates and may change.
+      embassy or consular status portal.
+
+      The day counter and percentage are automatically calculated
+      from dates recorded by the agency. They are estimates and
+      do not independently confirm government processing or approval.
+
     </div>
 
   </div>
 
   <script>
 
+    const AGENCY_TIME_ZONE = "America/Jamaica";
+
+
     const applicants = {
 
+
       "PRN-USA-2026-68421": {
+
         name: "Sashagay Angella Gordon",
+
         photo: "applicant-photo.png",
+
         trackingNumber: "PRN-USA-2026-68421",
+
         nationality: "Jamaican",
-        applicationType: "Nurse — Six-Month PR Work Permit",
+
         destination: "United States",
-        status: "Approved — Work Permit Card Processing",
-        currentStage: "Card Production and Verification",
-        applicationStarted: "Not displayed",
-        approvalDate: "June 5, 2026",
-        durationStarted: "June 8, 2026 at 9:00 AM",
-        estimatedCompletion: "September 18, 2026",
-        progress: 70,
+
+        applicationType:
+          "Six-Month Nurse Work Permit Application",
+
+        status:
+          "Approved — Work Permit Card Processing",
+
+        currentStage:
+          "Card Production and Verification",
+
+
+        applicationStarted:
+          "Not displayed",
+
+        approvalDate:
+          "June 5, 2026",
+
+        processingStarted:
+          "June 8, 2026 at 9:00 AM",
+
+        processingLabel:
+          "Work Permit Card Processing",
+
+
+        processingStartDate:
+          "2026-06-08",
+
+        progressStartDateTime:
+          "2026-06-08T09:00:00-05:00",
+
+        progressTargetDateTime:
+          "2026-09-18T17:00:00-05:00",
+
+        progressTargetDisplay:
+          "September 18, 2026 at 5:00 PM",
+
+        estimatedWindow:
+          "September 18, 2026",
+
+        startingProgress:
+          55,
+
+        completed:
+          false,
+
 
         timeline: [
+
           "✅ Application submitted",
+
           "✅ Application reviewed",
-          "✅ Application approved",
-          "✅ Card production started",
-          "⏳ Final documentation pending"
+
+          "✅ Approval recorded — June 5, 2026",
+
+          "✅ Card processing started — June 8, 2026",
+
+          "⏳ Card production and final documentation in progress"
+
         ],
 
+
         message:
-          "The agency record shows that the work permit application was approved and card processing began on June 8, 2026. The estimated completion date is September 18, 2026. This date is an estimate and may change."
+
+          "The agency record shows that the work permit application was approved and card processing began on June 8, 2026. The current percentage is automatically estimated using the recorded processing start date and the estimated completion target."
+
       },
 
+
       "OJO-CAY-26-K7M842": {
-        name: "Camille Jodean Johnson-Salmon",
-        photo: "camille-johnson-salmon.jpg",
-        trackingNumber: "OJO-CAY-26-K7M842",
-        nationality: "Jamaican",
-        applicationType: "Six-Month Security Guard Work Permit",
-        destination: "Cayman Islands",
-        status: "Approved — Duration Processing in Progress",
-        currentStage: "Work Permit Duration and Final Issuance Processing",
-        applicationStarted: "July 8, 2026",
-        approvalDate: "July 14, 2026",
-        durationStarted: "July 20, 2026",
-        estimatedCompletion: "August–September 2026",
-        progress: 70,
+
+        name:
+          "Camille Jodean Johnson-Salmon",
+
+        photo:
+          "camille-johnson-salmon.jpg",
+
+        trackingNumber:
+          "OJO-CAY-26-K7M842",
+
+        nationality:
+          "Jamaican",
+
+        destination:
+          "Cayman Islands",
+
+        applicationType:
+          "Six-Month Security Guard Work Permit",
+
+        status:
+          "Approved — Duration Processing in Progress",
+
+        currentStage:
+          "Work Permit Duration and Final Issuance Processing",
+
+
+        applicationStarted:
+          "July 8, 2026",
+
+        approvalDate:
+          "July 14, 2026",
+
+        processingStarted:
+          "July 20, 2026",
+
+        processingLabel:
+          "Duration Processing",
+
+
+        processingStartDate:
+          "2026-07-20",
+
+        progressStartDateTime:
+          "2026-07-20T09:00:00-05:00",
+
+        progressTargetDateTime:
+          "2026-09-30T17:00:00-05:00",
+
+        progressTargetDisplay:
+          "September 30, 2026 at 5:00 PM",
+
+        estimatedWindow:
+          "August–September 2026",
+
+        startingProgress:
+          70,
+
+        completed:
+          false,
+
 
         timeline: [
+
           "✅ Application submitted — July 8, 2026",
+
           "✅ Application reviewed",
-          "✅ Application approved — July 14, 2026",
+
+          "✅ Approval recorded — July 14, 2026",
+
           "✅ Duration processing started — July 20, 2026",
+
           "⏳ Final issuance processing in progress"
+
         ],
 
+
         message:
-          "The agency record shows that the six-month Security Guard Work Permit application was submitted on July 8, 2026 and approved on July 14, 2026. Duration and final issuance processing began on July 20, 2026. Estimated completion is between August and September 2026. This timeframe is an estimate and may change depending on processing requirements."
+
+          "The agency record shows that the six-month Security Guard Work Permit application was submitted on July 8, 2026 and approved on July 14, 2026. Duration and final issuance processing began on July 20, 2026. The estimated completion window is August through September 2026. For automatic progress calculations, the tracker uses September 30, 2026 at 5:00 PM as the estimated target."
+
       }
 
     };
 
 
-    function searchCase() {
+    let activeTrackingNumber = null;
 
-      const trackingNumber =
-        document
-          .getElementById("caseId")
-          .value
-          .trim()
-          .toUpperCase();
+
+    function escapeHtml(value) {
+
+      return String(value)
+
+        .replaceAll("&", "&amp;")
+
+        .replaceAll("<", "&lt;")
+
+        .replaceAll(">", "&gt;")
+
+        .replaceAll('"', "&quot;")
+
+        .replaceAll("'", "&#039;");
+
+    }
+
+
+    function getAgencyTodayUtcValue() {
+
+      const parts =
+
+        new Intl.DateTimeFormat(
+
+          "en-CA",
+
+          {
+
+            timeZone: AGENCY_TIME_ZONE,
+
+            year: "numeric",
+
+            month: "2-digit",
+
+            day: "2-digit"
+
+          }
+
+        ).formatToParts(new Date());
+
+
+      const values = {};
+
+
+      parts.forEach(function (part) {
+
+        if (part.type !== "literal") {
+
+          values[part.type] =
+            Number(part.value);
+
+        }
+
+      });
+
+
+      return Date.UTC(
+
+        values.year,
+
+        values.month - 1,
+
+        values.day
+
+      );
+
+    }
+
+
+    function dateStringToUtcValue(dateString) {
+
+      const parts =
+
+        dateString
+
+          .split("-")
+
+          .map(Number);
+
+
+      return Date.UTC(
+
+        parts[0],
+
+        parts[1] - 1,
+
+        parts[2]
+
+      );
+
+    }
+
+
+    function calculateProcessingDay(startDate) {
+
+      const today =
+        getAgencyTodayUtcValue();
+
+
+      const start =
+        dateStringToUtcValue(startDate);
+
+
+      const difference =
+
+        Math.floor(
+
+          (today - start) / 86400000
+
+        );
+
+
+      return difference >= 0
+
+        ? difference + 1
+
+        : 0;
+
+    }
+
+
+    function calculateAutomaticProgress(applicant) {
+
+
+      if (applicant.completed) {
+
+        return 100;
+
+      }
+
+
+      const now =
+        Date.now();
+
+
+      const start =
+
+        new Date(
+
+          applicant.progressStartDateTime
+
+        ).getTime();
+
+
+      const target =
+
+        new Date(
+
+          applicant.progressTargetDateTime
+
+        ).getTime();
+
+
+      if (
+
+        !Number.isFinite(start) ||
+
+        !Number.isFinite(target) ||
+
+        target <= start
+
+      ) {
+
+        return applicant.startingProgress;
+
+      }
+
+
+      if (now <= start) {
+
+        return applicant.startingProgress;
+
+      }
+
+
+      if (now >= target) {
+
+        return 99;
+
+      }
+
+
+      const timeRatio =
+
+        (now - start) /
+
+        (target - start);
+
+
+      const calculated =
+
+        applicant.startingProgress +
+
+        (
+
+          (99 - applicant.startingProgress)
+
+          * timeRatio
+
+        );
+
+
+      return Math.min(
+
+        99,
+
+        Math.max(
+
+          applicant.startingProgress,
+
+          calculated
+
+        )
+
+      );
+
+    }
+
+
+    function formatAgencyDateTime(date) {
+
+      return new Intl.DateTimeFormat(
+
+        "en-US",
+
+        {
+
+          timeZone: AGENCY_TIME_ZONE,
+
+          year: "numeric",
+
+          month: "long",
+
+          day: "numeric",
+
+          hour: "numeric",
+
+          minute: "2-digit",
+
+          hour12: true
+
+        }
+
+      ).format(date);
+
+    }
+
+
+    function renderApplicant(applicant) {
+
 
       const result =
+
         document.getElementById("result");
 
-      const applicant =
-        applicants[trackingNumber];
+
+      const processingDay =
+
+        calculateProcessingDay(
+
+          applicant.processingStartDate
+
+        );
 
 
-      if (trackingNumber === "") {
+      const progress =
 
-        result.innerHTML =
-          "<div class='not-found'>Please enter a tracking number.</div>";
+        calculateAutomaticProgress(
 
-        return;
-      }
+          applicant
+
+        );
 
 
-      if (!applicant) {
+      const progressText =
 
-        result.innerHTML =
-          "<div class='not-found'>Tracking number not found. Please check the number and try again.</div>";
-
-        return;
-      }
+        progress.toFixed(1);
 
 
       const timelineItems =
+
         applicant.timeline
+
           .map(function (item) {
-            return "<p>" + item + "</p>";
+
+            return (
+
+              "<p>" +
+
+              escapeHtml(item) +
+
+              "</p>"
+
+            );
+
           })
+
           .join("");
+
+
+      const targetNotice =
+
+        progress >= 99 &&
+
+        !applicant.completed
+
+          ?
+
+          "The estimated target time has been reached. The tracker will remain at 99% until completion is manually confirmed."
+
+          :
+
+          "The percentage updates automatically according to elapsed time between the recorded processing start and estimated target.";
 
 
       result.innerHTML = `
 
         <div class="card">
 
+
           <div class="badge">
-            ${applicant.status}
-          </div>
 
-          <img
-            src="${applicant.photo}"
-            class="photo"
-            alt="Applicant photograph"
-          >
-
-          <h2>
-            ${applicant.name}
-          </h2>
-
-          <div class="details">
-
-            <p>
-              <strong>Tracking Number:</strong>
-              ${applicant.trackingNumber}
-            </p>
-
-            <p>
-              <strong>Nationality:</strong>
-              ${applicant.nationality}
-            </p>
-
-            <p>
-              <strong>Application Type:</strong>
-              ${applicant.applicationType}
-            </p>
-
-            <p>
-              <strong>Destination:</strong>
-              ${applicant.destination}
-            </p>
-
-            <p>
-              <strong>Current Status:</strong>
-              ${applicant.status}
-            </p>
-
-            <p>
-              <strong>Current Stage:</strong>
-              ${applicant.currentStage}
-            </p>
-
-            <p>
-              <strong>Application Started:</strong>
-              ${applicant.applicationStarted}
-            </p>
-
-            <p>
-              <strong>Approval Date:</strong>
-              ${applicant.approvalDate}
-            </p>
-
-            <p>
-              <strong>Duration Processing Started:</strong>
-              ${applicant.durationStarted}
-            </p>
-
-            <p>
-              <strong>Estimated Completion:</strong>
-              ${applicant.estimatedCompletion}
-            </p>
+            ${escapeHtml(applicant.status)}
 
           </div>
 
 
-          <h3>Application Progress</h3>
+          <div class="applicant-layout">
+
+
+            <div>
+
+              <img
+
+                src="${escapeHtml(applicant.photo)}"
+
+                class="photo"
+
+                alt="Applicant photograph"
+
+              >
+
+            </div>
+
+
+            <div>
+
+
+              <h2>
+
+                ${escapeHtml(applicant.name)}
+
+              </h2>
+
+
+              <div class="details">
+
+
+                <p>
+
+                  <strong>Tracking Number:</strong>
+
+                  ${escapeHtml(applicant.trackingNumber)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>Nationality:</strong>
+
+                  ${escapeHtml(applicant.nationality)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>Destination:</strong>
+
+                  ${escapeHtml(applicant.destination)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>Application Type:</strong>
+
+                  ${escapeHtml(applicant.applicationType)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>Current Status:</strong>
+
+                  ${escapeHtml(applicant.status)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>Current Stage:</strong>
+
+                  ${escapeHtml(applicant.currentStage)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>Application Started:</strong>
+
+                  ${escapeHtml(applicant.applicationStarted)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>Approval Date:</strong>
+
+                  ${escapeHtml(applicant.approvalDate)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>
+
+                    ${escapeHtml(applicant.processingLabel)}
+
+                    Started:
+
+                  </strong>
+
+                  ${escapeHtml(applicant.processingStarted)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>Estimated Completion Window:</strong>
+
+                  ${escapeHtml(applicant.estimatedWindow)}
+
+                </p>
+
+
+                <p>
+
+                  <strong>Automatic Progress Target:</strong>
+
+                  ${escapeHtml(applicant.progressTargetDisplay)}
+
+                </p>
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="counter-box">
+
+
+            <div class="day-number">
+
+              ${escapeHtml(applicant.processingLabel)}
+
+              — Day ${processingDay}
+
+            </div>
+
+
+            <div>
+
+              The first recorded processing date is counted as Day 1.
+
+            </div>
+
+
+          </div>
+
+
+          <div class="progress-heading">
+
+
+            <h3>
+
+              Estimated Application Progress
+
+            </h3>
+
+
+            <div class="progress-value">
+
+              ${progressText}%
+
+            </div>
+
+
+          </div>
+
 
           <div class="progress-container">
 
+
             <div
+
               class="progress-bar"
-              style="width: ${applicant.progress}%"
+
+              style="width: ${progress}%"
+
             >
-              ${applicant.progress}% Complete
+
+              ${progressText}%
+
             </div>
+
+
+          </div>
+
+
+          <div class="progress-explanation">
+
+            ${escapeHtml(targetNotice)}
 
           </div>
 
 
           <div class="timeline">
 
-            <h3>Processing Timeline</h3>
+
+            <h3>
+
+              Processing Timeline
+
+            </h3>
+
 
             ${timelineItems}
+
 
           </div>
 
 
           <div class="note">
 
-            <strong>Agency Status Note:</strong>
+
+            <strong>
+
+              Agency Status Note:
+
+            </strong>
+
 
             <br><br>
 
-            ${applicant.message}
+
+            ${escapeHtml(applicant.message)}
+
 
           </div>
 
 
-          <button onclick="window.print()">
+          <div class="calculated-time">
+
+
+            Last automatically calculated:
+
+
+            ${escapeHtml(
+
+              formatAgencyDateTime(
+
+                new Date()
+
+              )
+
+            )}
+
+
+            — Jamaica/Cayman time.
+
+
+          </div>
+
+
+          <button
+
+            class="print-button"
+
+            onclick="window.print()"
+
+          >
+
             Print Application Status
+
           </button>
+
 
         </div>
 
       `;
+
+    }
+
+
+    function searchCase() {
+
+
+      const input =
+
+        document.getElementById("caseId");
+
+
+      const result =
+
+        document.getElementById("result");
+
+
+      const trackingNumber =
+
+        input.value
+
+          .trim()
+
+          .toUpperCase();
+
+
+      const applicant =
+
+        applicants[trackingNumber];
+
+
+      if (!trackingNumber) {
+
+
+        activeTrackingNumber = null;
+
+
+        result.innerHTML =
+
+          "<div class='not-found'>Please enter a tracking number.</div>";
+
+
+        return;
+
+      }
+
+
+      if (!applicant) {
+
+
+        activeTrackingNumber = null;
+
+
+        result.innerHTML =
+
+          "<div class='not-found'>Tracking number not found. Please check the number and try again.</div>";
+
+
+        return;
+
+      }
+
+
+      activeTrackingNumber =
+
+        trackingNumber;
+
+
+      renderApplicant(applicant);
+
     }
 
 
     document
+
       .getElementById("caseId")
+
       .addEventListener(
+
         "keydown",
+
         function (event) {
 
+
           if (event.key === "Enter") {
+
             searchCase();
+
           }
 
+
         }
+
       );
+
+
+    setInterval(function () {
+
+
+      if (
+
+        activeTrackingNumber &&
+
+        applicants[activeTrackingNumber]
+
+      ) {
+
+
+        renderApplicant(
+
+          applicants[activeTrackingNumber]
+
+        );
+
+
+      }
+
+
+    }, 60000);
 
   </script>
 
 </body>
-
 </html>
